@@ -1,4 +1,5 @@
 import 'package:dispill/colors.dart';
+import 'package:dispill/home/edit_prescription.dart';
 import 'package:dispill/registeration/upload_prescription.dart';
 import 'package:dispill/utils.dart';
 import 'package:flutter/material.dart';
@@ -115,10 +116,14 @@ Widget myDrawer(BuildContext context) {
             text: "Home",
             leading: Icon(Icons.home, color: Colors.black),
             route: ''),
-        const DrawerContainer(
-            text: "Edit Prescription",
-            leading: ImageIcon(AssetImage('assets/images/pills.png')),
-            route: ''),
+        GestureDetector(
+          onTap: () =>
+              Navigator.of(context).push(_createRouteForEditPrescription()),
+          child: const DrawerContainer(
+              text: "Edit Prescription",
+              leading: ImageIcon(AssetImage('assets/images/pills.png')),
+              route: ''),
+        ),
         const DrawerContainer(
             text: "Check History",
             leading: Icon(Icons.history, color: Colors.black),
@@ -127,7 +132,7 @@ Widget myDrawer(BuildContext context) {
             text: "Settings",
             leading: Icon(Icons.settings, color: Colors.black),
             route: ''),
-        Padding(
+        const Padding(
           padding:
               const EdgeInsets.only(top: 20.0, bottom: 20, left: 5, right: 5),
           child: Divider(
@@ -135,25 +140,25 @@ Widget myDrawer(BuildContext context) {
             thickness: 1,
           ),
         ),
-        DrawerContainer(
+        const DrawerContainer(
             text: "Manage Device",
             leading: Icon(Icons.phone_android),
             route: ''),
-        DrawerContainer(
+        const DrawerContainer(
             text: "Contact",
             leading: Icon(Icons.contact_phone_rounded),
             route: ''),
-        DrawerContainer(
+        const DrawerContainer(
             text: "Customer support",
             leading: Icon(Icons.support_agent_rounded),
             route: ''),
         Container(
-          margin: EdgeInsets.only(left: 30, right: 30, top: 100),
+          margin: const EdgeInsets.only(left: 30, right: 30, top: 100),
           height: 52,
           width: 235,
           decoration: BoxDecoration(
               color: primaryColor, borderRadius: BorderRadius.circular(11)),
-          child: Center(
+          child: const Center(
             child: AppLargeText(
               text: 'Log out',
               fontsize: 23,
@@ -163,5 +168,24 @@ Widget myDrawer(BuildContext context) {
         )
       ],
     ),
+  );
+}
+
+Route _createRouteForEditPrescription() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const EditPrescriptionScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = const Offset(0.0, 1);
+      var end = Offset.zero;
+      var curve = Curves.decelerate;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
   );
 }

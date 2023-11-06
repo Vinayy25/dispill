@@ -1,3 +1,4 @@
+import 'package:dispill/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -121,19 +122,21 @@ class _TabletDataContainerState extends State<TabletDataContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 144,
       width: 300,
       margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: const Color(0xffD9D9D9),
+        color: secondaryColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 3,
-            blurRadius: 0,
-            offset: const Offset(0, 3),
-          )
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 2,
+              offset: const Offset(
+                2,
+                2,
+              ))
         ],
       ),
       child: Column(children: [
@@ -199,11 +202,21 @@ class _TabletDataContainerState extends State<TabletDataContainer> {
                       fontsize: 13,
                     ),
                   ),
-                )
+                ),
               ],
             )
           ],
         ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 18, top: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              DaySelector(context, 'Everyday', false),
+              DaySelector(context, "Certain days", false)
+            ],
+          ),
+        )
       ]),
     );
   }
@@ -226,5 +239,44 @@ Widget checkBoxWithName(String name) {
       ),
       AppText(text: name, fontsize: 13, fontWeight: FontWeight.bold),
     ],
+  );
+}
+
+Widget DaySelector(BuildContext context, String name, bool isSelected) {
+  return Row(
+    children: [
+      Container(
+        height: 9,
+        width: 9,
+        decoration: BoxDecoration(
+            color: Colors.greenAccent,
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(width: 2)),
+      ),
+      const SizedBox(
+        width: 10,
+      ),
+      AppText(
+        text: name,
+        fontsize: 13,
+      )
+    ],
+  );
+}
+
+Widget MyButton(BuildContext context, String text, double fontSize,
+    double width, double height) {
+  return Container(
+    height: height,
+    width: width,
+    decoration: BoxDecoration(
+        color: Color.fromRGBO(45, 163, 155, 96 / 100),
+        borderRadius: BorderRadius.circular(11)),
+    child: Center(
+        child: AppLargeText(
+      text: text,
+      color: Colors.white,
+      fontsize: fontSize,
+    )),
   );
 }

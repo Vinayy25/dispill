@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:dispill/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,9 @@ class TabletVerification extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 10,
                   itemBuilder: (BuildContext context, int index) {
-                    return const TabletDataContainer();
+                    return FadeInUp(
+                        from: height * index / 10,
+                        child: const TabletDataContainer());
                   },
                 ),
               ),
@@ -54,12 +57,12 @@ class TabletVerification extends StatelessWidget {
                     IconButton(
                       iconSize: 30,
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.add,
                         color: Color(0xff043BFD),
                       ),
                     ),
-                    AppText(
+                    const AppText(
                       text: 'Add tablet',
                       fontsize: 12,
                       color: Color(0xff043BFD),

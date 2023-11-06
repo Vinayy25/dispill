@@ -131,6 +131,13 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                 fontWeight: FontWeight.bold,
               )),
           Positioned(
+            bottom: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/images/bottom_bubble_design.png',
+            ),
+          ),
+          Positioned(
             top: height * 0.3,
             left: width * 0.2,
             child: Column(
@@ -200,7 +207,6 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                     Navigator.of(context).pushNamed('/loading');
 
                     Timer(Duration(seconds: 1), () {
-                      Navigator.of(context).pushNamed('/completed');
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           '/tabletVerification', (route) => false);
                     });
@@ -221,13 +227,6 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/images/bottom_bubble_design.png',
             ),
           ),
         ],
