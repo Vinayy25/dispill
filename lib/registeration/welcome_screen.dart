@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:dispill/colors.dart';
 import 'package:dispill/registeration/connect_device.dart';
 import 'package:dispill/utils.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     bool animate = true;
+    TextEditingController nameController = TextEditingController();
+    TextEditingController ageController = TextEditingController();
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Stack(clipBehavior: Clip.none, children: <Widget>[
           Positioned(
@@ -61,7 +66,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: [
                 FadeInUp(
                   animate: animate,
-                  child: const CurvedTextFields(
+                  child: CurvedTextFields(
+                    controller: nameController,
                     keyboardType: TextInputType.name,
                     height: 49,
                     width: 286,
@@ -121,16 +127,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 const SizedBox(
                   height: 45,
                 ),
-                const Row(
+                Row(
                   children: [
-                    AppLargeText(
+                    const AppLargeText(
                       text: 'Select your age:',
                       fontsize: 16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     CurvedTextFields(
+                      controller: ageController,
                       keyboardType: TextInputType.number,
                       height: 28,
                       width: 85,
@@ -141,7 +148,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       paddingR: 0,
                       paddingT: 0,
                     ),
-                    Column(
+                    const Column(
                       children: [
                         Icon(
                           Icons.arrow_drop_up,

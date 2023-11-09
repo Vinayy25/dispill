@@ -1,13 +1,16 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:dispill/auth/auth_model.dart';
-import 'package:dispill/utils.dart';
+// Example for your custom text widget
+import 'package:dispill/utils.dart'; // Import your custom utility functions or widgets
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    final AuthService authService = AuthService();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -15,39 +18,151 @@ class LoginScreen extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
+              top: 0,
+              left: 0,
               child: Image.asset(
                 'assets/images/top_bubble_design.png',
               ),
-              top: 0,
-              left: 0,
             ),
             Positioned(
               top: 210,
               child: Column(
                 children: [
-                  AppLargeText(text: 'Login to Dispill'),
-                  SizedBox(
+                  const AppLargeText(text: 'Login to Dispill'),
+                  const SizedBox(
                     height: 30,
                   ),
                   CurvedTextFields(
-                      height: 50,
-                      width: 250,
-                      radius: 20,
-                      hintText: "enter your email",
-                      keyboardType: TextInputType.emailAddress),
-                  SizedBox(
+                    controller: emailController,
+                    height: 50,
+                    width: 250,
+                    radius: 20,
+                    hintText: "Enter your email",
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
                   CurvedTextFields(
-                      height: 50,
-                      width: 250,
-                      radius: 20,
-                      hintText: "password",
-                      keyboardType: TextInputType.visiblePassword),
-                  SizedBox(
+                    controller: passwordController,
+                    height: 50,
+                    width: 250,
+                    radius: 20,
+                    hintText: "Password",
+                    keyboardType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
-                  MyButton(context, 'Login', 20, 200, 50)
+                  GestureDetector(
+                    onTap: () async {
+                      // Check if email and password are not empty before calling the signInWithEmailAndPassword method
+
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
+                        await authService.signInWithEmailAndPassword(
+                          emailController.text,
+                          passwordController.text,
+                        );
+
+                        // Handle the response as needed
+                      }
+                    },
+                    child: myButton(context, 'Login', 20, 200, 50),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        Navigator.pushNamed(context, '/registrationScreen'),
+                    child: const AppText(
+                      text: 'Click here to Register',
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RegistrationScreen extends StatelessWidget {
+  const RegistrationScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    final AuthService authService = AuthService();
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Image.asset(
+                'assets/images/top_bubble_design.png',
+              ),
+            ),
+            Positioned(
+              top: 210,
+              child: Column(
+                children: [
+                  const AppLargeText(text: 'Register on Dispill'),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  CurvedTextFields(
+                    controller: emailController,
+                    height: 50,
+                    width: 250,
+                    radius: 20,
+                    hintText: "Enter your email",
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CurvedTextFields(
+                    controller: passwordController,
+                    height: 50,
+                    width: 250,
+                    radius: 20,
+                    hintText: "Password",
+                    keyboardType: TextInputType.visiblePassword,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      // Check if email and password are not empty before calling the signInWithEmailAndPassword method
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
+                        authService.registerWithEmailAndPassword(
+                            emailController.text.toString(),
+                            passwordController.text.toString(),
+                            context);
+                      }
+                    },
+                    child: myButton(context, 'Register', 20, 200, 50),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/loginScreen'),
+                    child: const AppText(
+                      text: 'Click here to Login',
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dispill/colors.dart';
 import 'package:dispill/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ class PrescriptionScreen1 extends StatelessWidget {
       backgroundColor: const Color(0xffEEF3F3),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
-        child: Container(
+        child: SizedBox(
           height: height,
           width: width,
           child: Stack(
@@ -206,7 +205,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                   onTap: () {
                     Navigator.of(context).pushNamed('/loading');
 
-                    Timer(Duration(seconds: 1), () {
+                    Timer(const Duration(seconds: 1), () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           '/tabletVerification', (route) => false);
                     });
@@ -249,42 +248,45 @@ class DrawerContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 2),
-      height: 52,
-      width: 250,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: const Border(
-          bottom: BorderSide(
-            color: Colors.black,
-            width: 1,
-          ),
-          right: BorderSide(
-            color: Colors.black,
-            width: 1,
-          ),
-          left: BorderSide(
-            color: Colors.black,
-            width: 1,
-          ),
-          top: BorderSide(
-            color: Colors.black,
-            width: 1,
-          ),
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 2),
+        height: 52,
+        width: 250,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+
+          // border: Border(
+          //   bottom: BorderSide(
+          //     color: Colors.black,
+          //     width: 1,
+          //   ),
+          //   right: BorderSide(
+          //     color: Colors.black,
+          //     width: 1,
+          //   ),
+          //   left: BorderSide(
+          //     color: Colors.black,
+          //     width: 1,
+          //   ),
+          //   top: BorderSide(
+          //     color: Colors.black,
+          //     width: 1,
+          //   ),
+          // ),
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            width: 10,
-          ),
-          leading,
-          const SizedBox(width: 25),
-          AppText(text: text, fontsize: 17, fontWeight: FontWeight.bold),
-        ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 10,
+            ),
+            leading,
+            const SizedBox(width: 25),
+            AppText(text: text, fontsize: 17, fontWeight: FontWeight.bold),
+          ],
+        ),
       ),
     );
   }

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "643905576248-scae82huj0febm8fqeubtsldt37ken9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dispill",
+            "certificate_hash": "c7783a4f06d642ee90cf04c08952f6db752dbd10"
+          }
+        },
+        {
           "client_id": "643905576248-5618m5cusq3fvl9jrn42hjarap41o29s.apps.googleusercontent.com",
           "client_type": 3
         }

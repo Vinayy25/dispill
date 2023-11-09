@@ -1,5 +1,7 @@
+import 'package:dispill/auth/auth_screen.dart';
 import 'package:dispill/home/edit_prescription.dart';
 import 'package:dispill/home/home_screen.dart';
+import 'package:dispill/home/settings.dart';
 import 'package:dispill/registeration/connect_device.dart';
 import 'package:dispill/registeration/loading_screen.dart';
 import 'package:dispill/registeration/tablet_verification.dart';
@@ -16,4 +18,7 @@ final Map<String, WidgetBuilder> routes = {
   '/tabletVerification': (context) => const TabletVerification(),
   '/homeScreen': (context) => const Homescreen(),
   '/editPrescription': (context) => const EditPrescriptionScreen(),
+  '/settings': (context) => const SettingScreen(),
+  '/registrationScreen': (context) => const RegistrationScreen(),
+  '/loginScreen': (context) => const LoginScreen(),
 };

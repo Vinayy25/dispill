@@ -44,7 +44,9 @@ class TabletVerification extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return FadeInUp(
                         from: height * index / 10,
-                        child: const TabletDataContainer());
+                        child: TabletDataContainer(
+                          edit_prescriptioncontext: context,
+                        ));
                   },
                 ),
               ),
@@ -79,7 +81,7 @@ class TabletVerification extends StatelessWidget {
                 child: Container(
                   height: 70,
                   width: 297,
-                  margin: EdgeInsets.symmetric(horizontal: 0),
+                  margin: const EdgeInsets.symmetric(horizontal: 0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(11),
                     color: const Color(0xff2DA39B),

@@ -31,6 +31,7 @@ dependencies:
   animate_do: ^3.1.2
   cloud_firestore: ^4.12.2
   cupertino_icons: ^1.0.2
+  dropdown_button2: ^2.3.9
   firebase_auth: ^4.12.1
   firebase_core: ^2.21.0
   flutter:
@@ -66,9 +67,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: inter
+    - family: roboto
       fonts:
-        - asset: assets/fonts/Inter.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

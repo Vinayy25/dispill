@@ -66,6 +66,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '643905576248',
     projectId: 'alar-pill-dispenser',
     storageBucket: 'alar-pill-dispenser.appspot.com',
+    androidClientId: '643905576248-scae82huj0febm8fqeubtsldt37ken9h.apps.googleusercontent.com',
     iosClientId: '643905576248-4q82o5880r77nq2e0kgdshce7t9g23j6.apps.googleusercontent.com',
     iosBundleId: 'com.example.dispill',
   );
@@ -76,6 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '643905576248',
     projectId: 'alar-pill-dispenser',
     storageBucket: 'alar-pill-dispenser.appspot.com',
+    androidClientId: '643905576248-scae82huj0febm8fqeubtsldt37ken9h.apps.googleusercontent.com',
     iosClientId: '643905576248-l0h5jki557kgeinejuvfcmdsk8scas0r.apps.googleusercontent.com',
     iosBundleId: 'com.example.dispill.RunnerTests',
   );

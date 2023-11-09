@@ -25,7 +25,7 @@ class LoadingScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 300,
                     width: 300,
                     child: Image.asset('assets/images/loading_avatar.png'),
@@ -78,7 +78,7 @@ class CompletedScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 300,
                     width: 300,
                     child: Image.asset('assets/images/completed_avatar.png'),

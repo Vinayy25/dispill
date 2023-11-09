@@ -1,23 +1,11 @@
 import 'package:dispill/auth/auth_screen.dart';
 import 'package:dispill/firebase_options.dart';
-
-import 'package:dispill/registeration/welcome_screen.dart';
+import 'package:dispill/home/home_screen.dart';
+import 'package:dispill/registeration/loading_screen.dart';
 import 'package:dispill/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-List<String> assetImages = [
-  'assets/images/top_bubble_design.png',
-  'assets/images/bottom_bubble_design.png',
-  'assets/images/female_avatar.png',
-  'assets/images/male_avatar.png',
-  'assets/images/loading_avatar.png',
-  'assets/images/completed_avatar.png',
-  'assets/images/qrcode_moblie_vector.png',
-  'assets/images/qrcode_vector.png',
-  'assets/images/prescription_skeleton.png',
-];
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,19 +17,40 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Dispill App',
       theme: ThemeData(),
-      home: FirebaseAuth.instance.currentUser == null
-          ? const LoginScreen()
-          : const WelcomeScreen(),
+      home: const AuthenticationWrapper(),
       routes: routes,
+    );
+  }
+}
+
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingScreen(); // Show a loading screen while checking auth status
+        } else {
+          if (snapshot.hasData && snapshot.data != null) {
+            return const Homescreen(); // User is logged in, show WelcomeScreen
+          } else {
+            return const LoginScreen(); // User is not logged in, show AuthScreen (Login/Register)
+          }
+        }
+      },
     );
   }
 }

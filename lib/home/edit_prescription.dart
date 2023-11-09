@@ -3,15 +3,30 @@ import 'package:dispill/colors.dart';
 import 'package:dispill/utils.dart';
 import 'package:flutter/material.dart';
 
-class EditPrescriptionScreen extends StatelessWidget {
+class EditPrescriptionScreen extends StatefulWidget {
   const EditPrescriptionScreen({super.key});
 
+  @override
+  State<EditPrescriptionScreen> createState() => _EditPrescriptionScreenState();
+}
+
+class _EditPrescriptionScreenState extends State<EditPrescriptionScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      extendBody: true,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: tertiaryColor,
+          title: const AppLargeText(
+            color: Colors.white,
+            text: 'Edit prescription',
+            fontsize: 17,
+          )),
+      backgroundColor: const Color(0xffEEF3F3),
       body: SafeArea(
         child: Stack(
           alignment: Alignment.center,
@@ -25,45 +40,26 @@ class EditPrescriptionScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 10,
+              top: 0,
               left: 30,
               child: Container(
                 height: height - 10,
-                width: width - 100,
+                width: width - 57,
                 color: Colors.transparent,
                 child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
                     return FadeInUp(
                         from: height * index / 10,
-                        child: TabletDataContainer());
+                        child: TabletDataContainer(
+                          edit_prescriptioncontext: context,
+                        ));
                   },
                 ),
               ),
             ),
-            Positioned(child: Visibility(child: Container())),
             Positioned(
-              top: 30,
-              right: 10,
-              child: Column(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  AppText(
-                    text: 'Add tablets',
-                    color: Colors.blue,
-                    fontsize: 12,
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-                bottom: 0, child: MyButton(context, 'Done', 15, width, 50))
+                bottom: 0, child: myButton(context, 'Done', 15, width, 50))
           ],
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:dispill/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppText extends StatelessWidget {
   final String text;
@@ -22,7 +21,8 @@ class AppText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: GoogleFonts.inter(
+      style: TextStyle(
+        fontFamily: 'roboto',
         fontSize: fontsize,
         fontWeight: fontWeight,
         color: color,
@@ -52,7 +52,7 @@ class AppLargeText extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
-        fontFamily: 'inter',
+        fontFamily: 'roboto',
         fontSize: fontsize,
         fontWeight: fontWeight,
         color: color,
@@ -71,10 +71,12 @@ class CurvedTextFields extends StatelessWidget {
   final double paddingT;
   final double paddingB;
   final TextInputType keyboardType;
+  TextEditingController controller = TextEditingController();
 
-  const CurvedTextFields({
+  CurvedTextFields({
     super.key,
     required this.height,
+    required this.controller,
     required this.width,
     required this.radius,
     required this.hintText,
@@ -95,6 +97,7 @@ class CurvedTextFields extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius), color: Colors.white),
         child: TextFormField(
+          controller: controller,
           keyboardType: keyboardType,
           cursorHeight: 20,
           cursorColor: Colors.black,
@@ -102,7 +105,7 @@ class CurvedTextFields extends StatelessWidget {
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: const TextStyle(
-                fontFamily: 'inter',
+                fontFamily: 'roboto',
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey),
@@ -112,48 +115,75 @@ class CurvedTextFields extends StatelessWidget {
 }
 
 class TabletDataContainer extends StatefulWidget {
-  const TabletDataContainer({super.key});
+  final BuildContext edit_prescriptioncontext;
+  const TabletDataContainer(
+      {super.key, required this.edit_prescriptioncontext});
 
   @override
   State<TabletDataContainer> createState() => _TabletDataContainerState();
 }
 
+OverlayEntry? overlayEntry;
+OverlayEntry? overlayEntry1;
+
 class _TabletDataContainerState extends State<TabletDataContainer> {
+  TextEditingController tabletNameController = TextEditingController();
+  TextEditingController everydayDayController = TextEditingController();
+  TextEditingController everydayNumberofPillsController =
+      TextEditingController();
+  TextEditingController certainDaysDayController = TextEditingController();
+  TextEditingController certainDaysNumberofPillsController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
       height: 144,
       width: 300,
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+      margin: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 10,
+        bottom: 10,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: secondaryColor,
         boxShadow: [
           BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 2,
-              offset: const Offset(
-                2,
-                2,
-              ))
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3,
+            blurRadius: 2,
+            offset: const Offset(
+              2,
+              2,
+            ),
+          ),
         ],
       ),
       child: Column(children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const CurvedTextFields(
-                height: 26.8,
-                width: 183,
-                radius: 10,
-                hintText: 'Tablet name',
-                paddingB: 0,
-                paddingL: 10,
-                paddingR: 10,
-                paddingT: 0,
-                keyboardType: TextInputType.name),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.delete_rounded))
+            CurvedTextFields(
+              controller: tabletNameController,
+              height: 26.8,
+              width: 183,
+              radius: 10,
+              hintText: 'Tablet name',
+              paddingB: 0,
+              paddingL: 10,
+              paddingR: 10,
+              paddingT: 0,
+              keyboardType: TextInputType.name,
+            ),
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.delete_rounded,
+                ))
           ],
         ),
         Row(
@@ -212,8 +242,30 @@ class _TabletDataContainerState extends State<TabletDataContainer> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DaySelector(context, 'Everyday', false),
-              DaySelector(context, "Certain days", false)
+              GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return everydayPickerWidget(
+                              context,
+                              everydayDayController,
+                              everydayNumberofPillsController);
+                        });
+                  },
+                  child: DaySelector(context, 'Everyday', false)),
+              GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return certainDaysPickerWidget(
+                              context,
+                              certainDaysDayController,
+                              certainDaysNumberofPillsController);
+                        });
+                  },
+                  child: DaySelector(context, "Certain days", false))
             ],
           ),
         )
@@ -228,7 +280,7 @@ Widget checkBoxWithName(String name) {
       Container(
         height: 14,
         width: 14,
-        margin: EdgeInsets.only(left: 10),
+        margin: const EdgeInsets.only(left: 10),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2),
           color: Colors.transparent,
@@ -264,13 +316,13 @@ Widget DaySelector(BuildContext context, String name, bool isSelected) {
   );
 }
 
-Widget MyButton(BuildContext context, String text, double fontSize,
+Widget myButton(BuildContext context, String text, double fontSize,
     double width, double height) {
   return Container(
     height: height,
     width: width,
     decoration: BoxDecoration(
-        color: Color.fromRGBO(45, 163, 155, 96 / 100),
+        color: const Color.fromRGBO(45, 163, 155, 96 / 100),
         borderRadius: BorderRadius.circular(11)),
     child: Center(
         child: AppLargeText(
@@ -278,5 +330,271 @@ Widget MyButton(BuildContext context, String text, double fontSize,
       color: Colors.white,
       fontsize: fontSize,
     )),
+  );
+}
+
+Widget everydayPickerWidget(
+    BuildContext context,
+    TextEditingController everydayDayController,
+    TextEditingController everydayNumberofPillsController) {
+  return AlertDialog(
+    contentPadding: EdgeInsets.zero,
+    actionsPadding: EdgeInsets.zero,
+    backgroundColor: Colors.white,
+    actions: [
+      Container(
+        height: 40,
+        width: 300,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 2,
+                offset: const Offset(
+                  2,
+                  2,
+                ),
+              ),
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 100,
+                width: 300,
+                color: Colors.white,
+                child: const Center(
+                  child: AppLargeText(
+                    text: 'OK',
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      )
+    ],
+    content: Container(
+      color: const Color.fromRGBO(83, 100, 255, 23 / 100),
+      height: 124,
+      width: 300,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.calendar_month),
+              ),
+              const AppText(text: 'Duration:'),
+              const SizedBox(
+                width: 30,
+              ),
+              CurvedTextFields(
+                controller: everydayDayController,
+                height: 25,
+                width: 78,
+                radius: 10,
+                hintText: '15 days',
+                keyboardType: TextInputType.number,
+                paddingB: 0,
+                paddingL: 10,
+                paddingR: 0,
+                paddingT: 10,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const AppText(text: 'days'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CurvedTextFields(
+                controller: everydayNumberofPillsController,
+                height: 25,
+                width: 78,
+                radius: 10,
+                hintText: '1',
+                keyboardType: TextInputType.number,
+                paddingB: 0,
+                paddingL: 30,
+                paddingR: 0,
+                paddingT: 10,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const AppText(text: 'pill per day'),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget certainDaysPickerWidget(
+    BuildContext context,
+    TextEditingController certainDaysDayController,
+    TextEditingController certainDaysNumberofPillsController) {
+  return AlertDialog(
+    contentPadding: EdgeInsets.zero,
+    actionsPadding: EdgeInsets.zero,
+    backgroundColor: Colors.white,
+    actions: [
+      Container(
+        height: 40,
+        width: 300,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 2,
+                offset: const Offset(
+                  2,
+                  2,
+                ),
+              ),
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 170,
+                width: 300,
+                color: Colors.white,
+                child: const Center(
+                  child: AppLargeText(
+                    text: 'OK',
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      )
+    ],
+    content: Container(
+      color: const Color.fromRGBO(83, 100, 255, 23 / 100),
+      height: 124,
+      width: 300,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Row(
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              const Icon(
+                Icons.calendar_month,
+              ),
+              squareBoxWithDay('sun'),
+              squareBoxWithDay('mon'),
+              squareBoxWithDay('tue'),
+              squareBoxWithDay('wed'),
+              squareBoxWithDay('thu'),
+              squareBoxWithDay('fri'),
+              squareBoxWithDay('sat'),
+            ],
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 47,
+              ),
+              const AppText(text: 'Duration:'),
+              const SizedBox(
+                width: 30,
+              ),
+              CurvedTextFields(
+                controller: certainDaysDayController,
+                height: 25,
+                width: 78,
+                radius: 10,
+                hintText: '15 days',
+                keyboardType: TextInputType.number,
+                paddingB: 0,
+                paddingL: 10,
+                paddingR: 0,
+                paddingT: 10,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const AppText(text: 'days'),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CurvedTextFields(
+                  height: 25,
+                  controller: certainDaysNumberofPillsController,
+                  width: 78,
+                  radius: 10,
+                  hintText: '1',
+                  keyboardType: TextInputType.number,
+                  paddingB: 0,
+                  paddingL: 30,
+                  paddingR: 0,
+                  paddingT: 10,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const AppText(text: 'pill per day'),
+                const SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget squareBoxWithDay(String day) {
+  return Container(
+    margin: const EdgeInsets.only(top: 10, left: 10, right: 5),
+    child: Column(
+      children: [
+        Container(
+          height: 14,
+          width: 14,
+          decoration: BoxDecoration(
+              color: Colors.greenAccent, border: Border.all(width: 1.5)),
+        ),
+        AppText(
+          text: day,
+          fontsize: 13,
+        )
+      ],
+    ),
   );
 }
