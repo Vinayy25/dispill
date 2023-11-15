@@ -1,3 +1,4 @@
+import 'package:dispill/models/firebase_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -31,11 +32,15 @@ class AuthService {
     } catch (e) {
       print('Error: $e');
     } finally {
-      Navigator.pushNamed(context, '/welcomeScreen');
+      await FirebaseService().onUserLoginOrRegister();
+
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil("/welcomeScreen", (route) => false);
     }
   }
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -54,6 +59,10 @@ class AuthService {
       }
     } catch (e) {
       // Handle any other exceptions
+    } finally {
+      await FirebaseService().onUserLoginOrRegister();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/homeScreen', (route) => false);
     }
   }
 
@@ -64,6 +73,8 @@ class AuthService {
     } catch (e) {
       print(e);
     } finally {
+      await FirebaseService().onUserLoginOrRegister();
+
       Navigator.of(context).pushNamed('/loginScreen');
     }
   }

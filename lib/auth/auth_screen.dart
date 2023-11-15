@@ -1,4 +1,4 @@
-import 'package:dispill/auth/auth_model.dart';
+import 'package:dispill/models/auth_model.dart';
 // Example for your custom text widget
 import 'package:dispill/utils.dart'; // Import your custom utility functions or widgets
 import 'package:flutter/material.dart';
@@ -61,9 +61,9 @@ class LoginScreen extends StatelessWidget {
                       if (emailController.text.isNotEmpty &&
                           passwordController.text.isNotEmpty) {
                         await authService.signInWithEmailAndPassword(
-                          emailController.text,
-                          passwordController.text,
-                        );
+                            emailController.text,
+                            passwordController.text,
+                            context);
 
                         // Handle the response as needed
                       }

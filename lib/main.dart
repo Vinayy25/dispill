@@ -1,6 +1,7 @@
 import 'package:dispill/auth/auth_screen.dart';
 import 'package:dispill/firebase_options.dart';
 import 'package:dispill/home/home_screen.dart';
+import 'package:dispill/models/data_model.dart';
 import 'package:dispill/registeration/loading_screen.dart';
 import 'package:dispill/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +14,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+// Dummy data for USER class
+
   runApp(const MyApp());
 }
 
@@ -22,7 +25,9 @@ class MyApp extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dispill App',
