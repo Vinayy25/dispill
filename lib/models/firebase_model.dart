@@ -40,62 +40,59 @@ class FirebaseService {
         DefaultValues.getDefaultAdditionalData();
     SetMedicines defaultSetMedicines = DefaultValues.getDefaultSetMedicines();
 
-    // Create the user collection with default values
-    await _firestore.collection('users').doc(userId).set({
+    // Create the user document with default values
+    DocumentReference userDocRef = _firestore.collection('users').doc(userId);
+    await userDocRef.set({
+      'email': email,
       'deviceId': defaultDeviceInfo.deviceId,
       'available': defaultDeviceInfo.available,
       'charge': defaultDeviceInfo.charge,
       'network': defaultDeviceInfo.network,
-      'prescription': {
-        'patientDetails': {
-          'patientName': defaultPrescription.patientDetails.patientName,
-          'age': defaultPrescription.patientDetails.age,
-          'gender': defaultPrescription.patientDetails.gender,
-          'contact': defaultPrescription.patientDetails.contact,
-        },
-        'medications': defaultPrescription.medications.map((medication) {
-          return {
-            'tabletName': medication.tabletName,
-            'dosage': medication.dosage,
-            // ... (other medication properties)
-          };
-        }).toList(),
+    });
+
+    // Create subcollections under the user document
+    await userDocRef
+        .collection('prescriptions')
+        .doc('defaultPrescription')
+        .set({
+      'patientDetails': {
+        'patientName': defaultPrescription.patientDetails.patientName,
+        'age': defaultPrescription.patientDetails.age,
+        'gender': defaultPrescription.patientDetails.gender,
+        'contact': defaultPrescription.patientDetails.contact,
       },
-      'settingData': {
-        'medicines': defaultSettingData.medicines.map((medicineSlot) {
-          return {
-            'slotNo': medicineSlot.slotNo,
-            'tablets': medicineSlot.tablets.map((tabletInfo) {
-              return {
-                'tabletName': tabletInfo.tabletName,
-                'fullTablet': tabletInfo.fullTablet,
-              };
-            }).toList(),
-          };
-        }).toList(),
-        'snoozeLength': defaultSettingData.snoozeLength,
-        'sound': defaultSettingData.sound,
-        'showNotifications': defaultSettingData.showNotifications,
-        'vibrate': defaultSettingData.vibrate,
-        'whiteTheme': defaultSettingData.whiteTheme,
-        'morning': _timeOfDayToJson(defaultSettingData.morning),
-        'afternoon': _timeOfDayToJson(defaultSettingData.afternoon),
-        'night': _timeOfDayToJson(defaultSettingData.night),
-      },
-      'additionalData': {
-        'pharmacies': defaultAdditionalData.pharmacies,
-        'notes': defaultAdditionalData.notes,
-        'reminders': defaultAdditionalData.reminders.map((reminder) {
-          return {
-            'reminderText': reminder.reminderText,
-            'time': _timeOfDayToJson(reminder.time),
-          };
-        }).toList(),
-        'dateOfIssue': defaultAdditionalData.dateOfIssue,
-      },
-      'setMedicines': {
-        // ... (process defaultSetMedicines as needed)
-      },
+    });
+
+    await userDocRef
+        .collection('prescriptions')
+        .doc('defaultPrescription')
+        .collection('medications')
+        .doc('defaultMedication')
+        .set({
+      'tabletName': defaultPrescription.medications[0].tabletName,
+      'dosage': defaultPrescription.medications[0].dosage,
+      // ... (other medication properties)
+    });
+
+    await userDocRef.collection('settings').doc('defaultSettings').set({
+      'snoozeLength': defaultSettingData.snoozeLength,
+      'sound': defaultSettingData.sound,
+      'showNotifications': defaultSettingData.showNotifications,
+      'vibrate': defaultSettingData.vibrate,
+      'whiteTheme': defaultSettingData.whiteTheme,
+      'morning': _timeOfDayToJson(defaultSettingData.morning),
+      'afternoon': _timeOfDayToJson(defaultSettingData.afternoon),
+      'night': _timeOfDayToJson(defaultSettingData.night),
+    });
+
+    await userDocRef.collection('additional').doc('defaultAdditionalData').set({
+      'pharmacies': defaultAdditionalData.pharmacies,
+      'notes': defaultAdditionalData.notes,
+      'dateOfIssue': defaultAdditionalData.dateOfIssue,
+    });
+
+    await userDocRef.collection('setMedicines').doc('defaultSetMedicines').set({
+      // ... (process defaultSetMedicines as needed)
     });
   }
 

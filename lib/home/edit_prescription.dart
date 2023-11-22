@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:dispill/colors.dart';
 import 'package:dispill/utils.dart';
+import 'package:dispill/widgets/edit_prescription_widgets.dart';
 import 'package:flutter/material.dart';
 
 class EditPrescriptionScreen extends StatefulWidget {
@@ -13,56 +13,103 @@ class EditPrescriptionScreen extends StatefulWidget {
 class _EditPrescriptionScreenState extends State<EditPrescriptionScreen> {
   @override
   Widget build(BuildContext context) {
+    bool onStoreTap = true;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: tertiaryColor,
-          title: const AppLargeText(
-            color: Colors.white,
-            text: 'Edit prescription',
-            fontsize: 17,
-          )),
+      // appBar: AppBar(
+      //     centerTitle: true,
+      //     backgroundColor: tertiaryColor,
+      //     title: const AppLargeText(
+      //       color: Colors.white,
+      //       text: 'Edit prescription',
+      //       fontsize: 17,
+      //     )),
       backgroundColor: const Color(0xffEEF3F3),
       body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
+          child: DefaultTabController(
+        length: 2,
+        child: Column(
           children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Image.asset(
-                'assets/images/top_bubble_design.png',
-              ),
+            TabBar(
+              padding: EdgeInsets.zero,
+              labelPadding: EdgeInsets.zero,
+              tabs: [
+                Tab(
+                  child: Container(
+                    color: const Color(0xffA9AEDB),
+                    height: 55,
+                    width: width / 2 - 1,
+                    child: const Center(
+                      child: AppText(
+                        text: 'Prescription',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontsize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+                Tab(
+                  child: Container(
+                    color: const Color(0xffF3A3A6),
+                    height: 55,
+                    width: width / 2 - 1,
+                    child: const Center(
+                      child: AppText(
+                        text: 'Store details',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontsize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Positioned(
-              top: 0,
-              left: 30,
-              child: Container(
-                height: height - 10,
-                width: width - 57,
-                color: Colors.transparent,
-                child: ListView.builder(
+            Expanded(
+              child: TabBarView(children: [
+                ListView.builder(
                   itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
-                    return FadeInUp(
+                    return FadeInLeft(
                         from: height * index / 10,
                         child: TabletDataContainer(
                           edit_prescriptioncontext: context,
                         ));
                   },
                 ),
-              ),
+                ListView.builder(
+                  itemCount: 8,
+                  itemBuilder: (BuildContext context, int index) {
+                    return FadeInRight(
+                      from: height * index / 10,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 30, right: 30, top: 20),
+                        child: StoreDetailsBox('Paracetamol',
+                            'Apollo Pharmacy, Manipal', '9876543210'),
+                      ),
+                    );
+                  },
+                ),
+              ]),
             ),
-            Positioned(
-                bottom: 0, child: myButton(context, 'Done', 15, width, 50))
+            Container(
+                height: 60,
+                color: const Color.fromRGBO(90, 151, 151, 78 / 100),
+                child: const Center(
+                  child: AppText(
+                    text: "Done",
+                    color: Colors.white,
+                    fontsize: 20,
+                  ),
+                ))
           ],
         ),
-      ),
+      )),
     );
   }
 }

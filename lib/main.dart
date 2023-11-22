@@ -1,7 +1,6 @@
 import 'package:dispill/auth/auth_screen.dart';
 import 'package:dispill/firebase_options.dart';
 import 'package:dispill/home/home_screen.dart';
-import 'package:dispill/models/data_model.dart';
 import 'package:dispill/registeration/loading_screen.dart';
 import 'package:dispill/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';

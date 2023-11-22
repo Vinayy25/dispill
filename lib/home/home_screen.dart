@@ -19,12 +19,12 @@ class _HomescreenState extends State<Homescreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(219, 251, 251, 1),
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       drawer: myDrawer(context),
       extendBody: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromRGBO(206, 246, 246, 52 / 100),
         elevation: 0,
         leading: IconButton(
           onPressed: () {
@@ -49,109 +49,112 @@ class _HomescreenState extends State<Homescreen> {
         ],
       ),
       body: SafeArea(
-          child: ListView(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 3.0,
-                spreadRadius: 1.0,
-                offset: const Offset(
-                    0, 3), // Adjust the offset for shadow direction
-              )
-            ]),
-            child: Container(
-              height: 92,
-              width: width,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(232, 174, 174, 74 / 100),
-                borderRadius: BorderRadius.circular(0),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppLargeText(
-                      text: 'Hello USER!',
-                      fontsize: 20,
-                      color: Color(0xff0E0A56),
-                    ),
-                    AppText(text: "It's Thursday, 18th June", fontsize: 13),
-                  ],
+          child: Container(
+        color: const Color.fromRGBO(206, 246, 246, 52 / 100),
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 3.0,
+                  spreadRadius: 1.0,
+                  offset: const Offset(
+                      0, 3), // Adjust the offset for shadow direction
+                )
+              ]),
+              child: Container(
+                height: 92,
+                width: width,
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(232, 174, 174, 74 / 100),
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppLargeText(
+                        text: 'Hello USER!',
+                        fontsize: 20,
+                        color: Color(0xff0E0A56),
+                      ),
+                      AppText(text: "It's Thursday, 18th June", fontsize: 13),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              top: 20,
+            const SizedBox(
+              height: 10,
             ),
-            child: AppText(
-              text: "Today's Schedule:",
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          FadeInUp(
-            delay: const Duration(milliseconds: 100),
-            child: const HomeNotificationBlock(
-                pillIcon: 'assets/images/pink_pills1.png',
-                tabletDosage: 1,
-                tabletName: 'Paracetamol',
-                beforeFood: false,
-                timeOfDay: 'Morning',
-                timeToTake: TimeOfDay(hour: 8, minute: 00),
-                statusName: 'assets/images/alert1.png'),
-          ),
-          FadeInUp(
-            delay: const Duration(milliseconds: 300),
-            child: const HomeNotificationBlock(
-              tabletName: 'Asprin',
-              pillIcon: 'assets/images/blue_pills1.png',
-              statusName: 'assets/images/taken1.png',
-              tabletDosage: 1,
-              beforeFood: false,
-              timeOfDay: 'Afternoon',
-              timeToTake: TimeOfDay(
-                hour: 12,
-                minute: 30,
+            const Padding(
+              padding: EdgeInsets.only(
+                left: 20,
+                top: 20,
+              ),
+              child: AppText(
+                text: "Today's Schedule:",
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          FadeInUp(
-            delay: const Duration(milliseconds: 600),
-            child: const HomeNotificationBlock(
-                tabletName: 'Acetaminophen',
-                pillIcon: 'assets/images/pink_pills1.png',
-                statusName: 'assets/images/alert1.png',
-                tabletDosage: 1,
-                beforeFood: false,
-                timeOfDay: 'Night',
-                timeToTake: TimeOfDay(hour: 8, minute: 30)),
-          ),
-          FadeInUp(
-            delay: const Duration(milliseconds: 900),
-            child: const HomeNotificationBlock(
-                tabletName: 'Amoxicillin',
+            const SizedBox(
+              height: 20,
+            ),
+            FadeInUp(
+              delay: const Duration(milliseconds: 100),
+              child: const HomeNotificationBlock(
+                  pillIcon: 'assets/images/pink_pills1.png',
+                  tabletDosage: 1,
+                  tabletName: 'Paracetamol',
+                  beforeFood: false,
+                  timeOfDay: 'Morning',
+                  timeToTake: TimeOfDay(hour: 8, minute: 00),
+                  statusName: 'assets/images/alert1.png'),
+            ),
+            FadeInUp(
+              delay: const Duration(milliseconds: 300),
+              child: const HomeNotificationBlock(
+                tabletName: 'Asprin',
                 pillIcon: 'assets/images/blue_pills1.png',
                 statusName: 'assets/images/taken1.png',
                 tabletDosage: 1,
-                beforeFood: true,
-                timeOfDay: 'Night',
-                timeToTake: TimeOfDay(hour: 8, minute: 30)),
-          )
-        ],
+                beforeFood: false,
+                timeOfDay: 'Afternoon',
+                timeToTake: TimeOfDay(
+                  hour: 12,
+                  minute: 30,
+                ),
+              ),
+            ),
+            FadeInUp(
+              delay: const Duration(milliseconds: 600),
+              child: const HomeNotificationBlock(
+                  tabletName: 'Acetaminophen',
+                  pillIcon: 'assets/images/pink_pills1.png',
+                  statusName: 'assets/images/alert1.png',
+                  tabletDosage: 1,
+                  beforeFood: false,
+                  timeOfDay: 'Night',
+                  timeToTake: TimeOfDay(hour: 8, minute: 30)),
+            ),
+            FadeInUp(
+              delay: const Duration(milliseconds: 900),
+              child: const HomeNotificationBlock(
+                  tabletName: 'Amoxicillin',
+                  pillIcon: 'assets/images/blue_pills1.png',
+                  statusName: 'assets/images/taken1.png',
+                  tabletDosage: 1,
+                  beforeFood: true,
+                  timeOfDay: 'Night',
+                  timeToTake: TimeOfDay(hour: 8, minute: 30)),
+            )
+          ],
+        ),
       )),
     );
   }

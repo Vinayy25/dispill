@@ -1,6 +1,9 @@
 import 'package:dispill/auth/auth_screen.dart';
 import 'package:dispill/home/edit_prescription.dart';
 import 'package:dispill/home/home_screen.dart';
+import 'package:dispill/home/manage_device.dart';
+import 'package:dispill/home/refill_history.dart';
+import 'package:dispill/home/report.dart';
 import 'package:dispill/home/settings.dart';
 import 'package:dispill/registeration/connect_device.dart';
 import 'package:dispill/registeration/loading_screen.dart';
@@ -21,4 +24,7 @@ final Map<String, WidgetBuilder> routes = {
   '/settings': (context) => const SettingScreen(),
   '/registrationScreen': (context) => const RegistrationScreen(),
   '/loginScreen': (context) => const LoginScreen(),
+  '/refillHistory': (context) => const PillRefillHistory(),
+  '/manageDevice': (context) => const ManageDevice(),
+  '/report': (context) => const ReportScreen()
 };

@@ -1,3 +1,4 @@
+import 'package:dispill/home/check_history.dart';
 import 'package:dispill/models/auth_model.dart';
 import 'package:dispill/colors.dart';
 import 'package:dispill/home/edit_prescription.dart';
@@ -168,10 +169,16 @@ Widget myDrawer(BuildContext context) {
               leading: ImageIcon(AssetImage('assets/images/pills.png')),
               route: ''),
         ),
-        const DrawerContainer(
-            text: "Check History",
-            leading: Icon(Icons.history, color: Colors.black),
-            route: ''),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const CheckHistory()));
+          },
+          child: const DrawerContainer(
+              text: "Check History",
+              leading: Icon(Icons.history, color: Colors.black),
+              route: ''),
+        ),
         GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed('/settings');
@@ -194,10 +201,15 @@ Widget myDrawer(BuildContext context) {
               '/welcomeScreen',
             );
           },
-          child: const DrawerContainer(
-              text: "Manage Device",
-              leading: Icon(Icons.phone_android),
-              route: ''),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/manageDevice');
+            },
+            child: const DrawerContainer(
+                text: "Manage Device",
+                leading: Icon(Icons.phone_android),
+                route: ''),
+          ),
         ),
         const DrawerContainer(
             text: "Contact",
@@ -207,6 +219,15 @@ Widget myDrawer(BuildContext context) {
             text: "Customer support",
             leading: Icon(Icons.support_agent_rounded),
             route: ''),
+        GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/report');
+            },
+            child: DrawerContainer(
+              text: "Report",
+              leading: Icon(Icons.report),
+              route: '',
+            )),
         GestureDetector(
           onTap: () => AuthService().signOut(context),
           child: Container(

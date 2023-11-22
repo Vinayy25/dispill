@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 // class USER {
 //   final String userId;
@@ -226,9 +225,9 @@ class DefaultValues {
       showNotifications: true,
       vibrate: false,
       whiteTheme: true,
-      morning: TimeOfDay(hour: 8, minute: 0),
-      afternoon: TimeOfDay(hour: 12, minute: 0),
-      night: TimeOfDay(hour: 20, minute: 0),
+      morning: const TimeOfDay(hour: 8, minute: 0),
+      afternoon: const TimeOfDay(hour: 12, minute: 0),
+      night: const TimeOfDay(hour: 20, minute: 0),
     );
   }
 
@@ -239,7 +238,7 @@ class DefaultValues {
       reminders: [
         Reminder(
             reminderText: 'Default Reminder',
-            time: TimeOfDay(hour: 9, minute: 0)),
+            time: const TimeOfDay(hour: 9, minute: 0)),
       ],
       dateOfIssue: '2023-01-01',
     );
