@@ -1,10 +1,12 @@
 import 'package:dispill/alert_dialog.dart';
+import 'package:dispill/states/settings_state.dart';
 
 import 'package:dispill/utils.dart';
 import 'package:dispill/widgets/home_screen_widgets.dart';
 import 'package:dispill/widgets/settings_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -113,25 +115,49 @@ class _SettingScreenState extends State<SettingScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          snoozeLength = 3;
-                        });
-                      },
-                      child: settingsCurvedBox(3, snoozeLength)),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  settingsCurvedBox(5, snoozeLength),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  settingsCurvedBox(10, snoozeLength)
-                ],
+              Consumer<BlockStateProvider>(
+                builder: ((context, provider, child) => Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              provider.toggleSnooze(0);
+                            },
+                            child: settingsCurvedBox(
+                                3,
+                                snoozeLength,
+                                (provider.currentSnoozeLength ==
+                                        provider.snooozeLength[0])
+                                    ? true
+                                    : false)),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                            onTap: () => provider.toggleSnooze(1),
+                            child: settingsCurvedBox(
+                                5,
+                                snoozeLength,
+                                (provider.currentSnoozeLength ==
+                                        provider.snooozeLength[1])
+                                    ? true
+                                    : false)),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              provider.toggleSnooze(2);
+                            },
+                            child: settingsCurvedBox(
+                                10,
+                                snoozeLength,
+                                (provider.currentSnoozeLength ==
+                                        provider.snooozeLength[2])
+                                    ? true
+                                    : false))
+                      ],
+                    )),
               ),
               const SizedBox(
                 height: 20,
@@ -143,11 +169,13 @@ class _SettingScreenState extends State<SettingScreen> {
                     text: 'Show notifications on screen',
                     fontsize: 17,
                   ),
-                  CupertinoSwitch(
-                      value: notifications,
-                      onChanged: (value) {
-                        onNotificationSwitchChanged(value);
-                      })
+                  Consumer<ToggleProvider>(builder: (context, provider, child) {
+                    return CupertinoSwitch(
+                        value: provider.notificationsStatus,
+                        onChanged: (value) {
+                          provider.toggleNotificationState();
+                        });
+                  })
                 ],
               ),
               const SizedBox(
@@ -160,18 +188,40 @@ class _SettingScreenState extends State<SettingScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                children: [
-                  settingsCurvedBoxSound('Bell', sound),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  settingsCurvedBoxSound('Buzz', sound),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  settingsCurvedBoxSound('Bubble', sound)
-                ],
+              Consumer<BlockStateProvider>(
+                builder: ((context, provider, child) => Row(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              provider.toggleSound(0);
+                            },
+                            child: settingsCurvedBoxSound(
+                                'Bell',
+                                (provider.currentSound == provider.sounds[0])
+                                    ? true
+                                    : false)),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                            onTap: () => provider.toggleSound(1),
+                            child: settingsCurvedBoxSound(
+                                'Buzz',
+                                (provider.currentSound == provider.sounds[1])
+                                    ? true
+                                    : false)),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        GestureDetector(
+                            onTap: () => provider.toggleSound(2),
+                            child: settingsCurvedBoxSound(
+                                'Bubble',
+                                (provider.currentSound == provider.sounds[2])
+                                    ? true
+                                    : false))
+                      ],
+                    )),
               ),
               const SizedBox(
                 height: 20,
@@ -183,11 +233,13 @@ class _SettingScreenState extends State<SettingScreen> {
                     text: 'Vibrate',
                     fontsize: 17,
                   ),
-                  CupertinoSwitch(
-                      value: vibrate,
-                      onChanged: (value) {
-                        onVibrateSwitchChanged(value);
-                      })
+                  Consumer<ToggleProvider>(builder: (context, provider, child) {
+                    return CupertinoSwitch(
+                        value: provider.vibrateStatus,
+                        onChanged: (value) {
+                          provider.toggleVibrateState();
+                        });
+                  })
                 ],
               ),
               const SizedBox(
@@ -221,41 +273,59 @@ class _SettingScreenState extends State<SettingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
-                    children: [
-                      AppText(
-                        text: "Morning",
-                        fontsize: 17,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      timePicker(8, 0, 'AM')
-                    ],
+                  GestureDetector(
+                    onTap: () async {
+                      await showTimePicker(
+                          context: context, initialTime: TimeOfDay.now());
+                    },
+                    child: Column(
+                      children: [
+                        const AppText(
+                          text: "Morning",
+                          fontsize: 17,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        timePicker(8, 0, 'AM')
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      AppText(
-                        text: "Afternoon",
-                        fontsize: 17,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      timePicker(1, 30, "PM")
-                    ],
+                  GestureDetector(
+                    onTap: () async {
+                      await showTimePicker(
+                          context: context, initialTime: TimeOfDay.now());
+                    },
+                    child: Column(
+                      children: [
+                        const AppText(
+                          text: "Afternoon",
+                          fontsize: 17,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        timePicker(1, 30, "PM")
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      AppText(
-                        text: "Night",
-                        fontsize: 17,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      timePicker(8, 30, 'PM'),
-                    ],
+                  GestureDetector(
+                    onTap: () async {
+                      await showTimePicker(
+                          context: context, initialTime: TimeOfDay.now());
+                    },
+                    child: Column(
+                      children: [
+                        const AppText(
+                          text: "Night",
+                          fontsize: 17,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        timePicker(8, 30, 'PM'),
+                      ],
+                    ),
                   )
                 ],
               ),

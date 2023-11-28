@@ -236,12 +236,12 @@ Widget medicinesWidgetRow(String tabletName, bool full, int index) {
   );
 }
 
-Widget settingsCurvedBox(int minutes, int snoozeLength) {
+Widget settingsCurvedBox(int minutes, int snoozeLength, bool borderState) {
   return Container(
     height: 27,
     width: 80,
     decoration: BoxDecoration(
-      border: (snoozeLength == minutes)
+      border: (borderState)
           ? Border.all(width: 3, color: Color(0xff4BD248))
           : Border.all(),
       borderRadius: BorderRadius.circular(10),
@@ -255,12 +255,12 @@ Widget settingsCurvedBox(int minutes, int snoozeLength) {
   );
 }
 
-Widget settingsCurvedBoxSound(String sound, String soundSelected) {
+Widget settingsCurvedBoxSound(String sound, bool borderState) {
   return Container(
     height: 27,
     width: 80,
     decoration: BoxDecoration(
-      border: (sound == soundSelected)
+      border: (borderState)
           ? Border.all(width: 3, color: Color(0xff4BD248))
           : Border.all(),
       borderRadius: BorderRadius.circular(10),
