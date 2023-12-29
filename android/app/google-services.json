@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "973377612383",
+    "project_id": "dispill-alar",
+    "storage_bucket": "dispill-alar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973377612383:android:4e9ab5ae4b6d914ebe49ea",
+        "android_client_info": {
+          "package_name": "com.example.dispill"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIpH6vOHgpi3FCmA-5IW30P0h1fjctIMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
