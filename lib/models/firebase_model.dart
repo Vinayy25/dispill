@@ -274,6 +274,7 @@ class FirebaseService {
             .doc('defaultPrescription')
             .set({});
       }
+      
 
       return await _firestore
           .collection('USER')
