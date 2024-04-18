@@ -1,9 +1,12 @@
 import 'package:dispill/home/check_history.dart';
+import 'package:dispill/home/home_screen.dart';
+import 'package:dispill/main.dart';
 import 'package:dispill/models/auth_model.dart';
 import 'package:dispill/colors.dart';
 import 'package:dispill/home/edit_prescription.dart';
 import 'package:dispill/registeration/upload_prescription.dart';
-import 'package:dispill/states/device_parameters_state.dart';
+import 'package:dispill/states/auth_state.dart';
+
 import 'package:dispill/states/prescription_state.dart';
 import 'package:dispill/states/settings_state.dart';
 import 'package:dispill/utils.dart';
@@ -140,6 +143,8 @@ Widget emptyGreyContainer(String time) {
 
 Widget myDrawer(BuildContext context) {
   return Drawer(
+    width: 300,
+
     child: ListView(
       children: [
         const DrawerHeader(
@@ -158,49 +163,56 @@ Widget myDrawer(BuildContext context) {
           ),
         ),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, '/homeScreen'),
+          onTap: () async => 
+          
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LandingPage(
+          )
+          ))
+          ,
           child: const DrawerContainer(
               text: "Home",
               leading: Icon(Icons.home, color: Colors.black),
               route: ''),
         ),
-        
-        Consumer<PrescriptionStateProvider>(builder: (context, provider, child){ return  GestureDetector(
-          onTap: () {
-              provider.fetchPrescription();
-              provider.fetchFreeslots();
-              provider.fetchStoreDetails();
+        Consumer<PrescriptionStateProvider>(
+            builder: (context, provider, child) {
+          return GestureDetector(
+            onTap: () {
+              // provider.fetchPrescription();
+              // provider.fetchFreeslots();
+              // provider.fetchStoreDetails();
               Navigator.of(context).push(_createRouteForEditPrescription());
-
-
-          },
-          child: const DrawerContainer(
-              text: "Edit Prescription",
-              leading: ImageIcon(AssetImage('assets/images/pills.png')),
-              route: ''),
-        );}),
+            },
+            child: const DrawerContainer(
+                text: "Edit Prescription",
+                leading: ImageIcon(AssetImage('assets/images/pills.png')),
+                route: ''),
+          );
+        }),
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const CheckHistory()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CheckHistory()));
           },
           child: const DrawerContainer(
               text: "Check History",
               leading: Icon(Icons.history, color: Colors.black),
               route: ''),
         ),
-      Consumer<SettingsProvider>(builder: (context, provider, child){ return GestureDetector(
-          onTap: () async{
-                    String userEmail = FirebaseAuth.instance.currentUser!.email!;
-          provider.fetchSettings();
+       
+           GestureDetector(
+              onTap: () async {
+
             
-            Navigator.of(context).pushNamed('/settings');
-          },
-          child: const  DrawerContainer(
-              text: "Settings",
-              leading: Icon(Icons.settings, color: Colors.black),
-              route: '')
-    );}),
+                String userEmail = FirebaseAuth.instance.currentUser!.email!;
+    
+                Navigator.of(context).pushNamed('/settings');
+              },
+              child: const DrawerContainer(
+                  text: "Settings",
+                  leading: Icon(Icons.settings, color: Colors.black),
+                  route: ''),
+            ),
         const Padding(
           padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 5, right: 5),
           child: Divider(
@@ -208,17 +220,17 @@ Widget myDrawer(BuildContext context) {
             thickness: 1,
           ),
         ),
-         Consumer<DeviceParametersProvider>(builder: (context, provider, child){ return
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed('/manageDevice');
-            provider.updateDeviceParametersWithFirestore();
-          },
-          child: const DrawerContainer(
-              text: "Manage Device",
-              leading: Icon(Icons.phone_android),
-              route: ''),
-        );}),
+        Consumer<SettingsProvider>(builder: (context, provider, child) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/manageDevice');
+            },
+            child: const DrawerContainer(
+                text: "Manage Device",
+                leading: Icon(Icons.phone_android),
+                route: ''),
+          );
+        }),
         const DrawerContainer(
             text: "Contact",
             leading: Icon(Icons.contact_phone_rounded),
@@ -236,8 +248,13 @@ Widget myDrawer(BuildContext context) {
               leading: Icon(Icons.report),
               route: '',
             )),
-        GestureDetector(
-          onTap: () => AuthService().signOut(context),
+       GestureDetector(onTap: () async {
+              final bool res = await AuthService().signOut(context);
+              // res == true
+              //     ? provider.setAuthenticated(false)
+              //     : print('unable to logout');
+      
+          },
           child: Container(
             margin: const EdgeInsets.only(left: 30, right: 30, top: 100),
             height: 52,
@@ -253,7 +270,8 @@ Widget myDrawer(BuildContext context) {
               ),
             ),
           ),
-        )
+        ),
+
       ],
     ),
   );

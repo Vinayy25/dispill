@@ -1,12 +1,14 @@
 import 'package:dispill/models/firebase_model.dart';
+import 'package:dispill/states/auth_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // Function for user registration with email and password
-  Future<void> registerWithEmailAndPassword(
+  Future<bool> registerWithEmailAndPassword(
       String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -15,6 +17,8 @@ class AuthService {
       );
       // If successful, the user is registered and logged in
       print('Registration Successful!');
+      return true;
+
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
@@ -29,17 +33,19 @@ class AuthService {
         default:
           print('Error: ${e.message}');
       }
+      return false;
     } catch (e) {
       print('Error: $e');
+      return false;
     } finally {
       await FirebaseService().onUserLoginOrRegister();
 
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil("/welcomeScreen", (route) => false);
+      // Navigator.of(context)
+      //     .pushNamedAndRemoveUntil("/welcomeScreen", (route) => false);
     }
   }
 
-  Future<void> signInWithEmailAndPassword(
+  Future<bool> signInWithEmailAndPassword(
       String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -47,6 +53,9 @@ class AuthService {
         password: password,
       );
       // If successful, the user is now logged in
+
+       await FirebaseService().onUserLoginOrRegister();
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
         // Handle invalid email
@@ -57,25 +66,29 @@ class AuthService {
       } else {
         // Handle other exceptions
       }
+      return false;
     } catch (e) {
+      return false;
+
       // Handle any other exceptions
     } finally {
-      await FirebaseService().onUserLoginOrRegister();
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/homeScreen', (route) => false);
-    }
+      
+
+      }
+     
+    
   }
 
   // Function to sign out the current user
-  Future<void> signOut(BuildContext context) async {
+  Future<bool> signOut(BuildContext context) async {
     try {
       await _firebaseAuth.signOut();
+      return true;
     } catch (e) {
       print(e);
+      return false;
     } finally {
       await FirebaseService().onUserLoginOrRegister();
-
-      Navigator.of(context).pushNamed('/loginScreen');
     }
   }
 }

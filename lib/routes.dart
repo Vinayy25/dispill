@@ -19,7 +19,7 @@ final Map<String, WidgetBuilder> routes = {
   '/loading': (context) => const LoadingScreen(),
   '/completed': (context) => const CompletedScreen(),
   '/tabletVerification': (context) => const TabletVerification(),
-  '/homeScreen': (context) => const Homescreen(),
+
   '/editPrescription': (context) => const EditPrescriptionScreen(),
   '/settings': (context) => const SettingScreen(),
   '/registrationScreen': (context) => const RegistrationScreen(),

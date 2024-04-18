@@ -76,7 +76,7 @@ Widget StoreDetailsBox(String tabletName, String storeName,
                           provider.storeDetails[index].tabletName = value;
                         },
                         cursorHeight: 20,
-                        style: TextStyle(
+                        style:const  TextStyle(
                           fontSize: 14,
                           color: Color.fromARGB(255, 125, 96, 96),
                         ),
@@ -105,7 +105,7 @@ Widget StoreDetailsBox(String tabletName, String storeName,
                               provider.storeDetails[index].pharmacyName = value;
                             },
                             cursorHeight: 20,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: const Color.fromARGB(255, 125, 96, 96),
                             ),
@@ -206,7 +206,7 @@ Widget StoreDetailsBox(String tabletName, String storeName,
                         provider.deleteStoreDetails(index);
                       },
                       iconSize: 20,
-                      icon: Icon(Icons.delete),
+                      icon:const  Icon(Icons.delete),
                     )),
                 Positioned(
                   top: 0,

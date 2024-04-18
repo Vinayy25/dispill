@@ -1,7 +1,9 @@
 import 'package:dispill/models/auth_model.dart';
+import 'package:dispill/states/auth_state.dart';
 // Example for your custom text widget
 import 'package:dispill/utils.dart'; // Import your custom utility functions or widgets
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -54,18 +56,21 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
+
+                  
                   GestureDetector(
                     onTap: () async {
                       // Check if email and password are not empty before calling the signInWithEmailAndPassword method
-
                       if (emailController.text.isNotEmpty &&
                           passwordController.text.isNotEmpty) {
-                        await authService.signInWithEmailAndPassword(
+                       final res= await authService.signInWithEmailAndPassword(
                             emailController.text,
                             passwordController.text,
                             context);
 
-                        // Handle the response as needed
+                        // Handle the response as neede
+                       
+
                       }
                     },
                     child: myButton(context, 'Login', 20, 200, 50),
@@ -141,15 +146,18 @@ class RegistrationScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
+
+                 
                   GestureDetector(
                     onTap: () async {
                       // Check if email and password are not empty before calling the signInWithEmailAndPassword method
                       if (emailController.text.isNotEmpty &&
                           passwordController.text.isNotEmpty) {
-                        authService.registerWithEmailAndPassword(
+                    final  res = await   authService.registerWithEmailAndPassword(
                             emailController.text.toString(),
                             passwordController.text.toString(),
                             context);
+
                       }
                     },
                     child: myButton(context, 'Register', 20, 200, 50),

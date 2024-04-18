@@ -9,6 +9,11 @@ class DeviceParametersProvider extends ChangeNotifier{
   bool batteryPercentage = false;
   bool batterySaver = false;
 
+  DeviceParametersProvider()
+  {
+    updateDeviceParametersWithFirestore();
+  }
+
   void updateDeviceParametersWithFirestore()async{
     DocumentSnapshot snapshot=await  FirebaseService().getDeviceParameters();
     batteryPercentage=snapshot['batteryPercentage'];
@@ -28,3 +33,6 @@ class DeviceParametersProvider extends ChangeNotifier{
    await FirebaseService().updateDeviceParameters('batterySaver', batterySaver);
   }
 }
+// test@gmail.com
+// 123456789
+

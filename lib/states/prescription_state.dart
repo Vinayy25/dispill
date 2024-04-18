@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispill/models/data_model.dart';
 import 'package:dispill/models/firebase_model.dart';
@@ -16,9 +18,16 @@ class PrescriptionStateProvider extends ChangeNotifier {
     '8': true,
   };
 
+  PrescriptionStateProvider() {
+    fetchPrescription();
+    fetchFreeslots();
+    fetchStoreDetails();
+  }
+
   List<StoreDetails> storeDetails = [];
 
   List<bool> storeDetailsEditView = [];
+  bool certainDaysState = false;
   void setEditView(bool value, int index) {
     storeDetailsEditView[index] = value;
     notifyListeners();
@@ -32,7 +41,6 @@ class PrescriptionStateProvider extends ChangeNotifier {
 
   void fetchStoreDetails() async {
     DocumentSnapshot snapshot = await FirebaseService().getStoreDetails();
-
     if (snapshot.exists) {
       Map<String, dynamic>? receivedMap =
           snapshot.data() as Map<String, dynamic>?;
@@ -113,6 +121,7 @@ class PrescriptionStateProvider extends ChangeNotifier {
     bool? everyday,
     Map<String, bool>? certainDays,
     int? slotNumber,
+    int? courseDuration,
   }) async {
     final Medication medication = prescription[index];
 
@@ -127,9 +136,11 @@ class PrescriptionStateProvider extends ChangeNotifier {
     medication.certainDays = certainDays ?? medication.certainDays;
     medication.slotNumberAllocated =
         slotNumber ?? medication.slotNumberAllocated;
+    medication.courseDuration = courseDuration ?? medication.courseDuration;
     notifyListeners();
-
-    await FirebaseService().updatePrescriptionInFirstore(medication);
+    if (medication.tabletName != '') {
+      await FirebaseService().updatePrescriptionInFirstore(medication);
+    }
     notifyListeners();
   }
 
@@ -139,7 +150,7 @@ class PrescriptionStateProvider extends ChangeNotifier {
       for (int i = 1; i <= slotNumbersFree.length; i++) {
         if (slotNumbersFree[i.toString()] == true) {
           slotNumber = i.toString();
-          print(slotNumber);
+
           break;
         }
       }
@@ -157,7 +168,7 @@ class PrescriptionStateProvider extends ChangeNotifier {
         courseDuration: 0,
         instructions: [],
         notes: [],
-        everyday: false,
+        everyday: true,
         certainDays: {
           'monday': false,
           'tuesday': false,
@@ -189,13 +200,25 @@ class PrescriptionStateProvider extends ChangeNotifier {
 
       Map<String, dynamic> defaultPrescription =
           snapshot.data() as Map<String, dynamic>;
-      defaultPrescription.forEach((key, value) {
+      defaultPrescription.forEach((key, value) async {
         Map<String, dynamic> medicationData = value;
 
-        slotNumbersFree[medicationData['slotnumberallocated'].toString()] =
+        slotNumbersFree[medicationData['slotNumberAllocated'].toString()] =
             false;
 
-        // Explicitly cast dynamic fields to the expected types
+        certainDaysState = false;
+
+        if (value['tabletName'] == '') {
+          await FirebaseService()
+              .deleteTabletInFirestore(medicationData['slotNumberAllocated']);
+
+          slotNumbersFree[medicationData['slotNumberAllocated'].toString()] =
+              true;
+
+          await FirebaseService().updateFreeSlotsInFirstore(slotNumbersFree);
+          fetchPrescription();
+        }
+
         prescription.add(Medication(
           tabletName: medicationData['tabletName'],
           beforeFood: medicationData['beforeFood'],
@@ -212,10 +235,35 @@ class PrescriptionStateProvider extends ChangeNotifier {
               .cast<String, bool>(),
           slotNumberAllocated: medicationData['slotNumberAllocated'],
         ));
+        medicationData['certainDays'].forEach((key, value) {
+          if (value == true) {
+            certainDaysState = true;
+          }
+        });
       });
     }
     notifyListeners();
+
     await FirebaseService().updateFreeSlotsInFirstore(slotNumbersFree);
+  }
+
+  bool toggleTakeCycle(int index) {
+    bool returnState = false;
+    if (prescription[index].everyday == true) {
+      prescription[index].everyday = false;
+      certainDaysState = true;
+      notifyListeners();
+      returnState = false;
+    } else {
+      prescription[index].everyday = true;
+      certainDaysState = false;
+      notifyListeners();
+      returnState = true;
+    }
+
+    FirebaseService().updatePrescriptionInFirstore(prescription[index]);
+    print(prescription[index].everyday);
+    return returnState;
   }
 
   void fetchFreeslots() async {

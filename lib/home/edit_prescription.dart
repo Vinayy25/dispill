@@ -81,8 +81,11 @@ class _EditPrescriptionScreenState extends State<EditPrescriptionScreen> {
                 ),
               ],
             ),
+         
+
             Consumer<PrescriptionStateProvider>(
                 builder: (context, provider, child) {
+      
               return Expanded(
                 child: TabBarView(children: [
                   Stack(

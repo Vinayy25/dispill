@@ -15,25 +15,9 @@ class SettingScreen extends StatefulWidget {
   State<SettingScreen> createState() => _SettingScreenState();
 }
 
-// bool notifications = true;
-// bool vibrate = true;
-// TimeOfDay morningTime = const TimeOfDay(hour: 7, minute: 15);
-// TimeOfDay afternoonTime = const TimeOfDay(hour: 1, minute: 00);
-// TimeOfDay nightTime = const TimeOfDay(hour: 9, minute: 00);
-// String? selectedValue;
 
 class _SettingScreenState extends State<SettingScreen> {
-  // void onNotificationSwitchChanged(bool value) {
-  //   setState(() {
-  //     notifications = value;
-  //   });
-  // }
 
-  // void onVibrateSwitchChanged(bool value) {
-  //   setState(() {
-  //     vibrate = value;
-  //   });
-  // }
 @override
   void initState() {
     // TODO: implement initState
@@ -48,7 +32,7 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(214, 255, 255, 1),
       extendBody: true,
-      drawer: myDrawer(context),
+    
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(90, 150, 150, 75 / 100),

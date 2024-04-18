@@ -1,13 +1,19 @@
+import 'dart:ffi';
+import 'dart:html';
+import 'dart:math';
+
 import 'package:dispill/models/data_model.dart';
+import 'package:dispill/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final user = FirebaseAuth.instance.currentUser!;
-  final username = FirebaseAuth.instance.currentUser!.displayName;
+  final user = FirebaseAuth.instance.currentUser;
+  final username = FirebaseAuth.instance.currentUser?.displayName ?? "";
   Future<void> onUserLoginOrRegister() async {
     try {
       User? user = _auth.currentUser;
@@ -18,7 +24,7 @@ class FirebaseService {
 
         // If the user collection doesn't exist, create it with default values
         if (!userExists) {
-          await _createUserWithDefaultValues(user.uid, user.email!);
+          await _createUserWithDefaultValues(user.uid, user.email ?? '');
         }
       }
     } catch (e) {
@@ -99,11 +105,11 @@ class FirebaseService {
 
   Future<bool> fetchSettingsVibrateState() async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
 
     try {
       final snapshot =
-          await documentReference.collection('settings').doc(user.email).get();
+          await documentReference.collection('settings').doc(user?.email).get();
       if (snapshot.exists) {
         return snapshot.data()!['vibrate'];
       } else {
@@ -121,7 +127,7 @@ class FirebaseService {
       // Use 'await' to wait for the result of the asynchronous operation
       DocumentSnapshot settingsData = await _firestore
           .collection('USER')
-          .doc(user.email)
+          .doc(user?.email)
           .collection('settings')
           .doc('defaultSettings')
           .get();
@@ -136,7 +142,7 @@ class FirebaseService {
 
   Future<bool> fetchSettingsNotificationsState() async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
 
     try {
       final snapshot = await documentReference
@@ -158,7 +164,7 @@ class FirebaseService {
 
   Future<void> updateSettingsInFirstore(bool value, String patameter) async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
     try {
       await documentReference
           .collection('settings')
@@ -175,7 +181,7 @@ class FirebaseService {
 
   Future<void> updateDeviceParameters(String parameter, dynamic value) async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
 
     try {
       await documentReference.update({
@@ -190,14 +196,14 @@ class FirebaseService {
 
   Future<DocumentSnapshot> getDeviceParameters() async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
 
     return documentReference.get();
   }
 
   Future<void> updateSettingsSoundInFirstore(String currentSound) async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
     try {
       await documentReference
           .collection('settings')
@@ -215,7 +221,7 @@ class FirebaseService {
   Future<void> updateSettingsSnoozeLengthInFirstore(
       int currentSnoozeLength) async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
     try {
       await documentReference
           .collection('settings')
@@ -233,7 +239,7 @@ class FirebaseService {
   Future<void> updateSettingsMorningTimeInFirstore(
       TimeOfDay time, String patameter) async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
 
     try {
       await documentReference
@@ -253,7 +259,7 @@ class FirebaseService {
     try {
       DocumentSnapshot prescription = await _firestore
           .collection('USER')
-          .doc(user.email)
+          .doc(user?.email)
           .collection('prescriptions')
           .doc('defaultPrescription')
           .get();
@@ -263,7 +269,7 @@ class FirebaseService {
       } else {
         await _firestore
             .collection('USER')
-            .doc(user.email)
+            .doc(user?.email)
             .collection('prescriptions')
             .doc('defaultPrescription')
             .set({});
@@ -271,11 +277,12 @@ class FirebaseService {
 
       return await _firestore
           .collection('USER')
-          .doc(user.email)
+          .doc(user?.email)
           .collection('prescriptions')
           .doc('defaultPrescription')
           .get();
     } catch (e) {
+      
       throw Exception(e.toString());
     }
   }
@@ -284,7 +291,7 @@ class FirebaseService {
     try {
       DocumentSnapshot freeSlots = await _firestore
           .collection('USER')
-          .doc(user.email)
+          .doc(user?.email)
           .collection('prescriptions')
           .doc('freeSlots')
           .get();
@@ -294,7 +301,7 @@ class FirebaseService {
       } else {
         await _firestore
             .collection('USER')
-            .doc(user.email)
+            .doc(user?.email)
             .collection('prescriptions')
             .doc('freeSlots')
             .set({
@@ -308,15 +315,15 @@ class FirebaseService {
           '8': true,
         });
       }
-
       return await _firestore
           .collection('USER')
-          .doc(user.email)
+          .doc(user?.email)
           .collection('prescriptions')
           .doc('freeSlots')
           .get();
     } catch (e) {
       print(e.toString() + "right here");
+    
       throw Exception(e.toString());
     }
   }
@@ -324,7 +331,7 @@ class FirebaseService {
   Future<void> updateFreeSlotsInFirstore(
       Map<String, bool> slotNumbersFree) async {
     final documentReference =
-        FirebaseFirestore.instance.collection('USER').doc(user.email);
+        FirebaseFirestore.instance.collection('USER').doc(user?.email);
 
     try {
       await documentReference
@@ -341,38 +348,37 @@ class FirebaseService {
   Future<void> updatePrescriptionInFirstore(Medication medication) async {
     final documentReference = FirebaseFirestore.instance
         .collection('USER')
-        .doc(user.email)
+        .doc(user?.email)
         .collection('prescriptions')
         .doc('defaultPrescription');
-
-    try {
-      await documentReference.update({
-        '${medication.slotNumberAllocated}': {
-          'tabletName': medication.tabletName,
-          'beforeFood': medication.beforeFood,
-          'dosage': medication.dosage,
-          'frequency': medication.frequency,
-          'duration': medication.courseDuration,
-          'notes': medication.notes,
-          'instructions': medication.instructions,
-          'everyday': medication.everyday,
-          'certainDays': medication.certainDays,
-          'slotNumberAllocated': medication.slotNumberAllocated,
-        },
-      });
-    } catch (error) {
-      // Handle potential errors
-      print(error);
-      return;
-    } catch (error) {
-      throw Exception(error.toString());
+    if (medication.tabletName != '') {
+      try {
+        await documentReference.update({
+          '${medication.slotNumberAllocated}': {
+            'tabletName': medication.tabletName,
+            'beforeFood': medication.beforeFood,
+            'dosage': medication.dosage,
+            'frequency': medication.frequency,
+            'duration': medication.courseDuration,
+            'notes': medication.notes,
+            'instructions': medication.instructions,
+            'everyday': medication.everyday,
+            'certainDays': medication.certainDays,
+            'slotNumberAllocated': medication.slotNumberAllocated,
+            'courseDuration': medication.courseDuration,
+          },
+        });
+      } catch (error) {
+        // Handle potential errors
+        print(error);
+      }
     }
   }
 
   Future<void> deleteTabletInFirestore(int slotNumber) async {
     final documentReference = FirebaseFirestore.instance
         .collection('USER')
-        .doc(user.email)
+        .doc(user?.email)
         .collection('prescriptions')
         .doc('defaultPrescription');
 
@@ -392,7 +398,7 @@ class FirebaseService {
   }) async {
     final documentReference = FirebaseFirestore.instance
         .collection('USER')
-        .doc(user.email)
+        .doc(user?.email)
         .collection('prescriptions')
         .doc('defaultPrescription');
 
@@ -427,7 +433,7 @@ class FirebaseService {
     try {
       DocumentSnapshot storeDetails = await _firestore
           .collection('USER')
-          .doc(user.email)
+          .doc(user?.email)
           .collection('prescriptions')
           .doc('storeDetails')
           .get();
@@ -436,7 +442,7 @@ class FirebaseService {
       } else {
         await _firestore
             .collection('USER')
-            .doc(user.email)
+            .doc(user?.email)
             .collection('prescriptions')
             .doc('storeDetails')
             .set({});
@@ -452,7 +458,7 @@ class FirebaseService {
   }) async {
     final documentReference = FirebaseFirestore.instance
         .collection('USER')
-        .doc(user.email)
+        .doc(user?.email)
         .collection('prescriptions')
         .doc('storeDetails');
 
@@ -478,15 +484,10 @@ class FirebaseService {
     }
   }
 
-  Future<void>deleteStoreDetailsInFirestore(
-
-String tabletName
-  )async{
-
-
+  Future<void> deleteStoreDetailsInFirestore(String tabletName) async {
     final documentReference = FirebaseFirestore.instance
         .collection('USER')
-        .doc(user.email)
+        .doc(user?.email)
         .collection('prescriptions')
         .doc('storeDetails');
 
@@ -505,10 +506,5 @@ String tabletName
     } catch (error) {
       throw Exception(error.toString());
     }
-
-
-
-
-
   }
 }

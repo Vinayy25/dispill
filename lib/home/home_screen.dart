@@ -1,14 +1,16 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:dispill/models/firebase_model.dart';
+import 'package:dispill/states/auth_state.dart';
+import 'package:dispill/states/device_parameters_state.dart';
+import 'package:dispill/states/prescription_state.dart';
+import 'package:dispill/states/settings_state.dart';
 
 import 'package:dispill/utils.dart';
 import 'package:dispill/widgets/home_screen_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-
-
-List<String>
- weekday = [
+List<String> weekday = [
   'Monday',
   'Tuesday',
   'Wednesday',
@@ -16,32 +18,36 @@ List<String>
   'Friday',
   'Saturday',
   'Sunday'
- ];
+];
 
- List<String> month= [
-   'January',
-   'February',
-   'March',
-   'April',
-   'May',
-   'June',
-   'July',
-   'August',
-   'September',
-   'October',
-   'November',
-   'December'
- ];
+List<String> month = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
 
 class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+  
+  
+
+   Homescreen({super.key,});
 
   @override
   State<Homescreen> createState() => _HomescreenState();
 }
 
+
+
 class _HomescreenState extends State<Homescreen> {
-  
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -49,9 +55,10 @@ class _HomescreenState extends State<Homescreen> {
     final width = MediaQuery.of(context).size.width;
     final String name = FirebaseService().username.toString();
     final DateTime now = DateTime.now();
-   
+
     return Scaffold(
       backgroundColor: Colors.white,
+
       key: _scaffoldKey,
       drawer: myDrawer(context),
       extendBody: true,
@@ -105,7 +112,7 @@ class _HomescreenState extends State<Homescreen> {
                   color: const Color.fromRGBO(232, 174, 174, 74 / 100),
                   borderRadius: BorderRadius.circular(0),
                 ),
-                child:  Padding(
+                child: Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +122,10 @@ class _HomescreenState extends State<Homescreen> {
                         fontsize: 20,
                         color: const Color(0xff0E0A56),
                       ),
-                      AppText(text: "It's ${weekday[now.weekday-1]}, ${now.day} ${month[now.month-1]}", fontsize: 13),
+                      AppText(
+                          text:
+                              "It's ${weekday[now.weekday - 1]}, ${now.day} ${month[now.month - 1]}",
+                          fontsize: 13),
                     ],
                   ),
                 ),
@@ -184,7 +194,7 @@ class _HomescreenState extends State<Homescreen> {
                   beforeFood: true,
                   timeOfDay: 'Night',
                   timeToTake: TimeOfDay(hour: 8, minute: 30)),
-            )
+            ),
           ],
         ),
       )),

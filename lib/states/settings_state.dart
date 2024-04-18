@@ -14,6 +14,10 @@ class SettingsProvider extends ChangeNotifier {
   TimeOfDay morning = TimeOfDay.now();
   TimeOfDay afternoon = TimeOfDay.now();
   TimeOfDay night = TimeOfDay.now();
+
+  SettingsProvider() {
+    fetchSettings();
+  }
   
   void fetchSettings()async{
    DocumentSnapshot snapshot= await FirebaseService().getSettingsData();
