@@ -1,13 +1,7 @@
-import 'dart:ffi';
-import 'dart:html';
-import 'dart:math';
-
 import 'package:dispill/models/data_model.dart';
-import 'package:dispill/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -274,7 +268,6 @@ class FirebaseService {
             .doc('defaultPrescription')
             .set({});
       }
-      
 
       return await _firestore
           .collection('USER')
@@ -283,7 +276,6 @@ class FirebaseService {
           .doc('defaultPrescription')
           .get();
     } catch (e) {
-      
       throw Exception(e.toString());
     }
   }
@@ -324,7 +316,7 @@ class FirebaseService {
           .get();
     } catch (e) {
       print(e.toString() + "right here");
-    
+
       throw Exception(e.toString());
     }
   }
