@@ -422,7 +422,7 @@ class FirebaseService {
     }
   }
 
-  Future<dynamic> getStoreDetails() async {
+  Future <dynamic> getStoreDetails() async {
     try {
       DocumentSnapshot storeDetails = await _firestore
           .collection('USER')
