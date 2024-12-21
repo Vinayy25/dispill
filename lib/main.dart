@@ -7,26 +7,73 @@ import 'package:dispill/states/device_parameters_state.dart';
 import 'package:dispill/states/prescription_state.dart';
 import 'package:dispill/states/settings_state.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp();
+  FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
   );
+
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Subscribe to 'news' topic
+  FirebaseMessaging.instance.subscribeToTopic('news');
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    _showNotification(message);
+  });
+
   runApp(const MyApp());
 }
 
+void _showNotification(RemoteMessage message) async {
+  final notification = message.notification;
+  final androidNotification = message.notification?.android;
+
+  if (notification != null && androidNotification != null) {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'DISPILL',
+      'News Notifications',
+      channelDescription: 'Notifications related to news updates',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      notification.title ?? 'No Title',
+      notification.body ?? 'No Body',
+      platformChannelSpecifics,
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-  });
+  const MyApp({super.key});
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) {
@@ -45,9 +92,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Dispill',
-        theme: ThemeData(),
+        theme: ThemeData(
+          fontFamily: 'roboto',
+        ),
         home: const LandingPage(),
-        // initialRoute: 'homeScreen',
         routes: routes,
       ),
     );
@@ -68,5 +116,3 @@ class LandingPage extends StatelessWidget {
     );
   }
 }
-
-

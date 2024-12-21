@@ -132,7 +132,7 @@ Widget StoreDetailsBox(String tabletName, String storeName,
                                   value;
                             },
                             cursorHeight: 20,
-                            style: TextStyle(
+                            style:const TextStyle(
                               fontSize: 14,
                               color: const Color.fromARGB(255, 125, 96, 96),
                             ),

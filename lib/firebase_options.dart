@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -49,7 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '973377612383',
     projectId: 'dispill-alar',
     authDomain: 'dispill-alar.firebaseapp.com',
-    storageBucket: 'dispill-alar.appspot.com',
+    storageBucket: 'dispill-alar.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -57,7 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:973377612383:android:4e9ab5ae4b6d914ebe49ea',
     messagingSenderId: '973377612383',
     projectId: 'dispill-alar',
-    storageBucket: 'dispill-alar.appspot.com',
+    storageBucket: 'dispill-alar.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -65,16 +62,26 @@ class DefaultFirebaseOptions {
     appId: '1:973377612383:ios:186a02c1f9986074be49ea',
     messagingSenderId: '973377612383',
     projectId: 'dispill-alar',
-    storageBucket: 'dispill-alar.appspot.com',
+    storageBucket: 'dispill-alar.firebasestorage.app',
     iosBundleId: 'com.example.dispill',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBYx6uhK_K-oYbZ1WqmrptL1JLO_zpEVdY',
-    appId: '1:973377612383:ios:82f2d1cde67ef561be49ea',
+    appId: '1:973377612383:ios:186a02c1f9986074be49ea',
     messagingSenderId: '973377612383',
     projectId: 'dispill-alar',
-    storageBucket: 'dispill-alar.appspot.com',
-    iosBundleId: 'com.example.dispill.RunnerTests',
+    storageBucket: 'dispill-alar.firebasestorage.app',
+    iosBundleId: 'com.example.dispill',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDwucfL68IJYhr_eS6hROgpinb_qTJk95E',
+    appId: '1:973377612383:web:150c320439332133be49ea',
+    messagingSenderId: '973377612383',
+    projectId: 'dispill-alar',
+    authDomain: 'dispill-alar.firebaseapp.com',
+    storageBucket: 'dispill-alar.firebasestorage.app',
+  );
+
 }

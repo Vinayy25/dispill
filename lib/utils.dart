@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class AppText extends StatelessWidget {
@@ -272,7 +271,7 @@ class _TabletDataContainerState extends State<TabletDataContainer> {
                         index: widget.index, tabletName: value);
                   },
                   cursorHeight: 20,
-                  style: GoogleFonts.roboto(
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 125, 96, 96),
@@ -281,7 +280,7 @@ class _TabletDataContainerState extends State<TabletDataContainer> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Tablet Name',
-                    hintStyle: GoogleFonts.roboto(
+                    hintStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey,
@@ -424,11 +423,11 @@ class _TabletDataContainerState extends State<TabletDataContainer> {
                   selectedBackgroundColors: const [
                     Color.fromRGBO(90, 151, 151, 78 / 100),
                   ],
-                  selectedTextStyle: GoogleFonts.roboto(
+                  selectedTextStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.bold),
-                  unSelectedTextStyle: GoogleFonts.roboto(
+                  unSelectedTextStyle: const TextStyle(
                       color: Colors.black45,
                       fontSize: 13,
                       fontWeight: FontWeight.bold),
@@ -646,7 +645,7 @@ Widget everydayPickerWidget(
                     },
                     keyboardType: TextInputType.number,
                     cursorHeight: 20,
-                    style: GoogleFonts.roboto(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 125, 96, 96),
@@ -655,7 +654,7 @@ Widget everydayPickerWidget(
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'number',
-                      hintStyle: GoogleFonts.roboto(
+                      hintStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -693,7 +692,7 @@ Widget everydayPickerWidget(
                     },
                     keyboardType: TextInputType.number,
                     cursorHeight: 20,
-                    style: GoogleFonts.roboto(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: const Color.fromARGB(255, 125, 96, 96),
@@ -702,7 +701,7 @@ Widget everydayPickerWidget(
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'portion',
-                      hintStyle: GoogleFonts.roboto(
+                      hintStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -921,7 +920,7 @@ Widget certainDaysPickerWidget(
                     },
                     keyboardType: TextInputType.number,
                     cursorHeight: 20,
-                    style: GoogleFonts.roboto(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 125, 96, 96),
@@ -930,7 +929,7 @@ Widget certainDaysPickerWidget(
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'number',
-                      hintStyle: GoogleFonts.roboto(
+                      hintStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -971,7 +970,7 @@ Widget certainDaysPickerWidget(
                       },
                       keyboardType: TextInputType.number,
                       cursorHeight: 20,
-                      style: GoogleFonts.roboto(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 125, 96, 96),
@@ -980,7 +979,7 @@ Widget certainDaysPickerWidget(
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'portion',
-                        hintStyle: GoogleFonts.roboto(
+                        hintStyle: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,

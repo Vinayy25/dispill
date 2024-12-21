@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "973377612383",
     "project_id": "dispill-alar",
-    "storage_bucket": "dispill-alar.appspot.com"
+    "storage_bucket": "dispill-alar.firebasestorage.app"
   },
   "client": [
     {

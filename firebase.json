@@ -1,18 +1,1 @@
-{
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
-    }
-  ]
-}
+{"functions":[{"source":"functions","codebase":"default","ignore":["node_modules",".git","firebase-debug.log","firebase-debug.*.log"],"predeploy":["npm --prefix \"$RESOURCE_DIR\" run lint","npm --prefix \"$RESOURCE_DIR\" run build"]}],"flutter":{"platforms":{"android":{"default":{"projectId":"dispill-alar","appId":"1:973377612383:android:4e9ab5ae4b6d914ebe49ea","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"dispill-alar","configurations":{"android":"1:973377612383:android:4e9ab5ae4b6d914ebe49ea","ios":"1:973377612383:ios:186a02c1f9986074be49ea","macos":"1:973377612383:ios:186a02c1f9986074be49ea","web":"1:973377612383:web:fbd7c5bc3d323060be49ea","windows":"1:973377612383:web:150c320439332133be49ea"}}}}}}
