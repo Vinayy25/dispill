@@ -57,9 +57,6 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  
-
   void toggleTheme() {
     whiteTheme = !whiteTheme;
     

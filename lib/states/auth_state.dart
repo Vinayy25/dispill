@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/logger.dart' as log;
 
 class AuthStateProvider extends ChangeNotifier {
   bool isAuthenticated = false;
